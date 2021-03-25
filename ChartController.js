@@ -50,6 +50,8 @@ export default class ChartController{
 		//max coords of x and y axises
 		const maxAxY = 120;
 		const maxAxX = 690;
+		
+		//shift y coord of 0
 		const shiftAxY = y0+90;
 
 		//create svg element
