@@ -3,9 +3,12 @@ export default class DataController extends EventTarget {
 		super();
 		this.url = url;
 		this.data = [];
+		//DataController do fetch every 1000ms
 		setInterval(async instance => {			
 			const data = await instance.fetchData();
 			if (instance.isDataUpdated(data)) {
+			
+			//dataChanged event do then data changed
 			const newEvent = new CustomEvent('dataChanged', {
 				detail: { data }
 			});
@@ -13,6 +16,8 @@ export default class DataController extends EventTarget {
 			}
 		}, 1000, this);
 		}
+
+	//method fetch data
 	async  fetchData(){
 		const body = {
 			url: this.url
@@ -27,13 +32,14 @@ export default class DataController extends EventTarget {
 		const {data} = await response.json();
 		return data;
 	}
-  
+	
+	//method check change of data
 	isDataUpdated(data) {
 		if (JSON.stringify(data) !== JSON.stringify(this.data)) {
 			this.data = data;
+			
 			return true;
 	}
-			
 			return false;
 		
 	}

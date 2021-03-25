@@ -1,154 +1,160 @@
 export default class ChartController{
 	constructor(dataController) {
 		if(dataController != null){
-		dataController.addEventListener('dataChanged', event => {
-			const { data } = event.detail;
-			this.draw(data);
+			dataController.addEventListener('dataChanged', event => {
+				const { data } = event.detail;
+				this.draw(data);
 		});
 		}
 		else{
 			this.deleteGraph();
 		}
 }
-
-//const for calculating
+	//method draw graph
 	draw(data){
+		//function search max of array
 		function getMaxOfArray (numArray) {
 			return Math.max.apply(null, numArray);
 		}
+		//function search min of array
 		function getMinOfArray (numArray) {
 			return Math.min.apply(null, numArray);
 		}
 
+		//remove no value 
 		const datan = data.slice(0,-1);
 		const datav = [];
 		const datax = [];
+
+		//sort to y value array
 		datan.forEach(element => {
 			datav.push(element.value);
 			})
+		//sort to x value array
 		datan.forEach(element => {
 			datax.push(element.x);
 			})
+		
+		//length of data arrays
 		const lenv = datav.length;
 		const lenx = datax.length;
-		let maxar = getMaxOfArray(datav);
-		let minar = getMinOfArray(datav);
+
+		//max and min of values array
+		const maxar = getMaxOfArray(datav);
+		const minar = getMinOfArray(datav);
+		
+		//coords of 0 in pixels
 		const x0 = 90;
 		const y0 = 350;
+		
+		//max coords of x and y axises
 		const maxAxY = 120;
 		const maxAxX = 690;
 		const shiftAxY = y0+90;
-		// const xmax = x0+50*(lenv-1);
-		const ymax = y0-maxar;
 
-		//data to pixels
-
-	//  for (i = 0; i<lenv; i++){
-	// 	arrx[i] = x0 + i*50;
-	// 	arry[i] = y0-datav[i];
-	//  }
-		//draw y axis
+		//create svg element
 		const svg  = document.createElementNS('http://www.w3.org/2000/svg','svg');
 		svg.setAttribute('class','graph')
 		document.body.appendChild(svg);
+
 		//draw y axis 
-		const liney = document.createElementNS('http://www.w3.org/2000/svg','line');
-		liney.setAttribute('x1', x0);
-		liney.setAttribute('x2', x0);
-		liney.setAttribute('y1', maxAxY);
-		liney.setAttribute('y2', shiftAxY);
-		liney.setAttribute('class', 'grid');
-		svg.appendChild(liney);
+		const yAxis = document.createElementNS('http://www.w3.org/2000/svg','line');
+		yAxis.setAttribute('x1', x0);
+		yAxis.setAttribute('x2', x0);
+		yAxis.setAttribute('y1', maxAxY);
+		yAxis.setAttribute('y2', shiftAxY);
+		yAxis.setAttribute('class', 'grid');
+		svg.appendChild(yAxis);
 		
 		//draw x axis
-		const linex = document.createElementNS('http://www.w3.org/2000/svg','line');
-		linex.setAttribute('x1', x0);
-		linex.setAttribute('x2', maxAxX);
-		linex.setAttribute('y1', shiftAxY);
-		linex.setAttribute('y2', shiftAxY);
-		linex.setAttribute('class', 'grid');
-		svg.appendChild(linex);
+		const xAxis = document.createElementNS('http://www.w3.org/2000/svg','line');
+		xAxis.setAttribute('x1', x0);
+		xAxis.setAttribute('x2', maxAxX);
+		xAxis.setAttribute('y1', shiftAxY);
+		xAxis.setAttribute('y2', shiftAxY);
+		xAxis.setAttribute('class', 'grid');
+		svg.appendChild(xAxis);
 	
-		const arry = [];
-		const arrx = [];
+		//data to pixels for y *
+		const arrY = [];
 		let i = 0;
-		//const kSmaller = shiftAxY- maxAxY)/Math.abs(shiftAxY-shiftAxY);
 		datav.forEach(element => {
-			arry[i] = (y0 - element);
+			arrY[i] = (y0 - element);
 			i+=1;
 		});
-
+		
+		//data to pixels for x
 		i = 0;
+		const arrX = [];
 		const lx = maxAxX - x0;
-		let labx = x0; 
-		let stepx = lx/(lenx-1);
+		let labX = x0; 
+		let stepX = lx/(lenx-1);
 		datax.forEach(element => {
-			arrx[i] = labx;
-			labx += stepx;
+			arrX[i] = labX;
+			labX += stepX;
 			i+=1;
 		});
 
+		//draw labels for x axis
 		i = 0;
-		//const xlable = document.querySelector('.x-labels');
 		datax.forEach(element=>{
-			const labe = document.createElementNS('http://www.w3.org/2000/svg','text');
+			const labelsX = document.createElementNS('http://www.w3.org/2000/svg','text');
 			const textNode = document.createTextNode(datax[i]);
-			labe.setAttribute('x', arrx[i] );
-			labe.setAttribute('y', y0+125);
-			labe.setAttribute('id','3')
-			labe.setAttribute('class','labels x-labels')
-			labe.appendChild(textNode);
-			svg.appendChild(labe);
+			labelsX.setAttribute('x', arrX[i] );
+			labelsX.setAttribute('y', y0+125);
+			labelsX.setAttribute('class','labels x-labels');
+			labelsX.appendChild(textNode);
+			svg.appendChild(labelsX);
 			i+=1
 		})
 
-		//draw y labels
+		//draw labels for y axis*
 		const part = 5;
 		const ly = maxar-minar;
 		const stepy = ly/part;
-		let pixel = [];
+		let pixelValues = [];
 		for (i = 0 ;i<=part;i++){
-			pixel[i]=Math.round(maxar-stepy*i);
+			pixelValues[i]=Math.round(maxar-stepy*i);
 		}
-		let w= 0;
+		let w = 0;
 		const step = (shiftAxY - maxAxY)/part;
-		let laby = maxAxY;
-		pixel.forEach(element=>{
-			const labey = document.createElementNS('http://www.w3.org/2000/svg','text');
+		let step0 = maxAxY;
+		pixelValues.forEach(element=>{
+			const labelsY = document.createElementNS('http://www.w3.org/2000/svg','text');
 			const textNode = document.createTextNode(element);
-			labey.setAttribute('x', x0-10 );
-			labey.setAttribute('y', laby);
-			labey.setAttribute('class','labels y-labels')
-			labey.appendChild(textNode);
-			svg.appendChild(labey);
-			laby +=step;
+			labelsY.setAttribute('x', x0-10 );
+			labelsY.setAttribute('y', step0);
+			labelsY.setAttribute('class','labels y-labels')
+			labelsY.appendChild(textNode);
+			svg.appendChild(labelsY);
+			step0 +=step;
 			w =  w + 1;
 		})
 
-		//draw graph
-		const line1 = document.createElementNS('http://www.w3.org/2000/svg','path');
+		//draw graph line
+		const lineGraph = document.createElementNS('http://www.w3.org/2000/svg','path');
 		let he = '';
 		let l0 = 'M';
 		i=0;
 		datav.forEach(element => {
-				he = he + ' ' +arrx[i]+ ' ' +arry[i];
+				he = he + ' ' +arrX[i]+ ' ' +arrY[i];
 			i+=1;
 		});
 		l0 = l0 + he;
-		line1.setAttribute('d', l0);
-		line1.setAttribute('stroke','#ef6c00');
-		line1.setAttribute('stroke-width','1.5');
-		line1.setAttribute('fill', 'none');
-		svg.appendChild(line1);
+		lineGraph.setAttribute('d', l0);
+		lineGraph.setAttribute('stroke','#ef6c00');
+		lineGraph.setAttribute('stroke-width','1.5');
+		lineGraph.setAttribute('fill', 'none');
+		svg.appendChild(lineGraph);
 		
-		//creat tooltip
+		//create dots for values and titles for dots
 		i=0;
 		datav.forEach(element => {
 		const dots = document.createElementNS('http://www.w3.org/2000/svg','circle');
 		const titleDots = document.createElementNS('http://www.w3.org/2000/svg','title');
 		const textNode = document.createTextNode(element);
-		dots.setAttribute('cx', arrx[i]);
-		dots.setAttribute('cy', arry[i]);
+		dots.setAttribute('cx', arrX[i]);
+		dots.setAttribute('cy', arrY[i]);
 		dots.setAttribute('r', '5');
 		titleDots.appendChild(textNode);
 		dots.appendChild(titleDots);
@@ -157,8 +163,8 @@ export default class ChartController{
 		});
 	}
 
-deleteGraph(){
-	
+	//method delete graph
+	deleteGraph(){
 		let del = document.querySelector('.graph');
 		if(del!=null){
 		del.parentNode.removeChild(del);

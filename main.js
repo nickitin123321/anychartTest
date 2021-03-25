@@ -4,6 +4,7 @@ const input = document.querySelector('.url');
 const button  = document.querySelector('.upgrade');
 const button1 = document.querySelector('.delete')
 
+//event click on button  
 button.onclick = async function(){
     const dataController = new DataController(input.value);
     const chartController =  new ChartController(dataController);
