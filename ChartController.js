@@ -48,11 +48,10 @@ export default class ChartController{
 	// 	arry[i] = y0-datav[i];
 	//  }
 		//draw y axis
-//<svg class="graph" aria-labelledby="title" role="img"></svg>
 		const svg  = document.createElementNS('http://www.w3.org/2000/svg','svg');
 		svg.setAttribute('class','graph')
 		document.body.appendChild(svg);
-		//const yaxis = document.querySelector('.y-grid');
+		//draw y axis 
 		const liney = document.createElementNS('http://www.w3.org/2000/svg','line');
 		liney.setAttribute('x1', x0);
 		liney.setAttribute('x2', x0);
@@ -60,8 +59,8 @@ export default class ChartController{
 		liney.setAttribute('y2', shiftAxY);
 		liney.setAttribute('class', 'grid');
 		svg.appendChild(liney);
+		
 		//draw x axis
-		//const xaxis = document.querySelector('.x-grid');
 		const linex = document.createElementNS('http://www.w3.org/2000/svg','line');
 		linex.setAttribute('x1', x0);
 		linex.setAttribute('x2', maxAxX);
@@ -78,6 +77,7 @@ export default class ChartController{
 			arry[i] = (y0 - element);
 			i+=1;
 		});
+
 		i = 0;
 		const lx = maxAxX - x0;
 		let labx = x0; 
@@ -87,6 +87,7 @@ export default class ChartController{
 			labx += stepx;
 			i+=1;
 		});
+
 		i = 0;
 		//const xlable = document.querySelector('.x-labels');
 		datax.forEach(element=>{
@@ -101,9 +102,7 @@ export default class ChartController{
 			i+=1
 		})
 
-	
-		
-		//rework
+		//draw y labels
 		const part = 5;
 		const ly = maxar-minar;
 		const stepy = ly/part;
@@ -111,8 +110,6 @@ export default class ChartController{
 		for (i = 0 ;i<=part;i++){
 			pixel[i]=Math.round(maxar-stepy*i);
 		}
-		//draw y labels
-		//const ylable = document.querySelector('.y-labels');
 		let w= 0;
 		const step = (shiftAxY - maxAxY)/part;
 		let laby = maxAxY;
@@ -129,7 +126,6 @@ export default class ChartController{
 		})
 
 		//draw graph
-		//const g1 = document.querySelector('.iner');
 		const line1 = document.createElementNS('http://www.w3.org/2000/svg','path');
 		let he = '';
 		let l0 = 'M';
@@ -138,14 +134,14 @@ export default class ChartController{
 				he = he + ' ' +arrx[i]+ ' ' +arry[i];
 			i+=1;
 		});
-		he = l0 + he;
-		line1.setAttribute('d', he);
+		l0 = l0 + he;
+		line1.setAttribute('d', l0);
 		line1.setAttribute('stroke','#ef6c00');
 		line1.setAttribute('stroke-width','1.5');
 		line1.setAttribute('fill', 'none');
 		svg.appendChild(line1);
-		//Creating tooltip
-
+		
+		//creat tooltip
 		i=0;
 		datav.forEach(element => {
 		const dots = document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -162,7 +158,10 @@ export default class ChartController{
 	}
 
 deleteGraph(){
+	
 		let del = document.querySelector('.graph');
+		if(del!=null){
 		del.parentNode.removeChild(del);
+		}
 }
 }
