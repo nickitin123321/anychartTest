@@ -169,7 +169,7 @@ export default class ChartController{
 	deleteGraph(){
 		let del = document.querySelector('.graph');
 		if(del!=null){
-		del.parentNode.removeChild(del);
+			del.parentNode.removeChild(del);
 		}
 }
 }
