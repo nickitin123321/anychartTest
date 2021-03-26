@@ -1,46 +1,51 @@
 export default class DataController extends EventTarget {
-	constructor(url){
-		super();
-		this.url = url;
-		this.data = [];
-		//DataController do fetch every 1000ms
-		setInterval(async instance => {			
-			const data = await instance.fetchData();
-			if (instance.isDataUpdated(data)) {
-			
-			//dataChanged event do then data changed
-			const newEvent = new CustomEvent('dataChanged', {
-				detail: { data }
-			});
-			instance.dispatchEvent(newEvent);
-			}
-		}, 1000, this);
-		}
+  constructor(url) {
+    super();
+    this.url = url;
+    this.data = [];
+    this.checkData();
 
-	//method fetch data
-	async  fetchData(){
-		const body = {
-			url: this.url
-		};
+    //DataController fetch data every 1000ms
+    setInterval(() => this.checkData(), 1000);
+  }
 
-		const response = await fetch('http://localhost:5000/', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(body)
-		});
-		
-		const {data} = await response.json();
-		return data;
-	}
-	
-	//method check change of data
-	isDataUpdated(data) {
-		if (JSON.stringify(data) !== JSON.stringify(this.data)) {
-			this.data = data;
-			
-			return true;
-	}
-			return false;
-		
-	}
+  //method fetch data
+  async fetchData() {
+    const body = {
+      url: this.url,
+    };
+
+    const response = await fetch("http://localhost:5000/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    let { data } = await response.json();
+    //remove no value
+    data = data.slice(0, -1);
+    return data;
+  }
+
+  //method tracking update of data
+  isDataUpdated(data) {
+    if (JSON.stringify(data) !== JSON.stringify(this.data)) {
+      this.data = data;
+
+      return true;
+    }
+    return false;
+  }
+
+  //method check change of data
+  async checkData() {
+    const data = await this.fetchData();
+    if (this.isDataUpdated(data)) {
+      //dataChanged event do then data changed
+      const newEvent = new CustomEvent("dataChanged", {
+        detail: data,
+      });
+      this.dispatchEvent(newEvent);
+    }
+  }
 }

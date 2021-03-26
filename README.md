@@ -1,3 +1,3 @@
 # Установка
-* npm install
-*
+
+- npm install
