@@ -31,7 +31,6 @@ export default class DataController extends EventTarget {
   isDataUpdated(data) {
     if (JSON.stringify(data) !== JSON.stringify(this.data)) {
       this.data = data;
-
       return true;
     }
     return false;
