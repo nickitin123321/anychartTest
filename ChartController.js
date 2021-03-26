@@ -24,7 +24,7 @@ export default class ChartController {
         this.deleteGraph();
 
         this.createSvgElement();
-        //cootds of values in pixels
+        //coords of values in pixels
         const arrY = this.dataToPixelsY(dataY);
         const arrX = this.dataToPixelsX(dataX);
 
