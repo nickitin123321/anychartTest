@@ -4,6 +4,7 @@ const cors = require("cors");
 const fetch = require("node-fetch");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static("."));
@@ -11,7 +12,6 @@ app.use(express.static("."));
 app.post("/", async (req, res) => {
   try {
     const { url } = req.body;
-    //console.log(url);
     const response = await fetch(url);
     const data = await response.json();
 

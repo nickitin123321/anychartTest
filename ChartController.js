@@ -7,35 +7,36 @@ export default class ChartController {
     this.maxAxY = 120;
     this.maxAxX = 690;
 
-    if (dataController != null) {
-      dataController.addEventListener("dataChanged", event => {
-        const data = event.detail;
-        const dataY = [];
-        const dataX = [];
-
-        //sort data to y value array
-        data.forEach(element => {
-          dataY.push(element.value);
-        });
-        //sort data to x value array
-        data.forEach(element => {
-          dataX.push(element.x);
-        });
-        this.deleteGraph();
-
-        this.createSvgElement();
-        //coords of values in pixels
-        const arrY = this.dataToPixelsY(dataY);
-        const arrX = this.dataToPixelsX(dataX);
-
-        this.drawYAxis(dataY);
-        this.drawXAxis(dataX, arrX);
-        this.drawLine(arrX, arrY, dataY);
-      });
-    } else {
-      this.deleteGraph();
-    }
+    dataController.addEventListener("dataChanged", event => {
+      const data = event.detail;
+      this.drawGraph(data);
+    });
   }
+
+  drawGraph(data) {
+    const dataY = [];
+    const dataX = [];
+
+    //sort data to y value array
+    data.forEach(element => {
+      dataY.push(element.value);
+    });
+    //sort data to x value array
+    data.forEach(element => {
+      dataX.push(element.x);
+    });
+    this.deleteGraph();
+
+    this.createSvgElement();
+    //coords of values in pixels
+    const arrY = this.dataToPixelsY(dataY);
+    const arrX = this.dataToPixelsX(dataX);
+
+    this.drawYAxis(dataY);
+    this.drawXAxis(dataX, arrX);
+    this.drawLine(arrX, arrY, dataY);
+  }
+
   createSvgElement() {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "graph");
@@ -65,10 +66,9 @@ export default class ChartController {
     });
     return arrY;
   }
+
   drawYAxis(dataY) {
-    const y0 = this.y0;
-    const x0 = this.x0;
-    const maxAxY = this.maxAxY;
+    const { y0, x0, maxAxY } = this;
     //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -111,8 +111,7 @@ export default class ChartController {
   }
 
   dataToPixelsX(dataX) {
-    const x0 = this.x0;
-    const maxAxX = this.maxAxX;
+    const { x0, maxAxX } = this;
     let i = 0;
     const arrX = [];
     const lx = maxAxX - x0;
@@ -127,9 +126,7 @@ export default class ChartController {
   }
 
   drawXAxis(dataX, arrX) {
-    const x0 = this.x0;
-    const y0 = this.y0;
-    const maxAxX = this.maxAxX;
+    const { x0, y0, maxAxX } = this;
     //draw x axis
     const svg = document.querySelector(".graph");
     const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");

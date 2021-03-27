@@ -22,8 +22,9 @@ export default class DataController extends EventTarget {
     });
 
     let { data } = await response.json();
-    //remove no value
-    data = data.slice(0, -1);
+
+    data = data.filter(({ x, value }) => value !== undefined && x !== undefined);
+
     return data;
   }
 
