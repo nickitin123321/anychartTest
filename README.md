@@ -2,14 +2,16 @@
 
 Требуется ввести команды:
 
-`$git clone https://github.com/nickitin123321/anychartTest`  
-`$npm run server`
+```
+$git clone https://github.com/nickitin123321/anychartTest
+$npm run server
+```
 
 # Список используемых технологий:
 
 - Node.js
 
-  - Запуск сервера, на который загружаются данные 
+  - Запуск сервера, на который загружаются данные
 
 - Java script
 
