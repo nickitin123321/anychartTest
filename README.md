@@ -10,8 +10,8 @@
   - Запуск сервера
 
 - Java script 
-  - Контроль данных(DataController) 
-  - Отрисовка графика на svg(ChartController)
+  - Контроль данных (DataController) 
+  - Отрисовка графика на svg (ChartController)
 
 - Html 
   - Разметка страницы
