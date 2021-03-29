@@ -11,7 +11,7 @@ $npm run server
 ```
 2. Переход по ссылке http://localhost:5000/index.html или запуск файла index.html
 
-3. Ввод url где хранятся данные (http://localhost:5000/)
+3. Ввод url где хранятся данные, в данном случае на сервере: http://localhost:5000
 
 4. Нажатие на кнопку upgrade data
 
