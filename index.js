@@ -1,20 +1,18 @@
 //include packages
 const express = require("express");
-const cors = require("cors");
-const fetch = require("node-fetch");
-let data = require("./11.json");
-
+const fs = require('fs');
 const app = express();
 
-app.use(cors());
-app.use(express.json());
 app.use(express.static("."));
 
-app.post("/", (req, res) => {
+app.get("/api", (req, res) => {
   try {
     // const { url } = req.body;
     // const response = await fetch(url);
     // const data = await response.json();
+    let data = fs.readFileSync('./11.json')
+    data = JSON.parse(data);
+    //console.log(data);
     res.json(data);
   } catch (error) {
     console.log(error.message);

@@ -15,11 +15,7 @@ export default class DataController extends EventTarget {
     //   url: this.url,
     // };
 
-    const response = await fetch(this.url , {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      //body: JSON.stringify(body),
-    });
+    const response = await fetch(this.url);
 
     let { data } = await response.json();
     data = data.filter(({ x, value }) => value !== undefined && x !== undefined);
