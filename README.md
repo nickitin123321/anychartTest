@@ -1,5 +1,5 @@
 # Установка
-### Требуется ввести команды:
+Требуется ввести команды:
 - git clone https://github.com/nickitin123321/anychartTest
 - npm run server
 
