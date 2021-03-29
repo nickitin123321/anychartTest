@@ -1,8 +1,10 @@
 export default class ChartController {
   constructor(dataController) {
+    
     //coords of 0 in pixels
     this.x0 = 90;
     this.y0 = 440;
+    
     //max coords of axises in pixels
     this.maxAxY = 120;
     this.maxAxX = 690;
@@ -21,7 +23,7 @@ export default class ChartController {
     data.forEach(element => {
       dataY.push(element.value);
     });
-    
+
     //sort data to x value array
     data.forEach(element => {
       dataX.push(element.x);
@@ -46,10 +48,10 @@ export default class ChartController {
     svg.setAttribute("class", "graph");
     document.body.appendChild(svg);
   }
-   
+
   //method conversion data to pixels for y
   dataToPixelsY(dataY) {
-    let y0 = this.y0;
+    let { y0 } = this;
     const maxAxY = this.maxAxY;
     const maxar = Math.max(...dataY);
     const minar = Math.min(...dataY);
@@ -71,7 +73,7 @@ export default class ChartController {
 
   drawYAxis(dataY) {
     const { y0, x0, maxAxY } = this;
-    
+
     //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -84,7 +86,7 @@ export default class ChartController {
     const maxar = Math.max(...dataY);
     const minar = Math.min(...dataY);
     const lenAr = maxar - minar;
-    
+
     //draw labels for y axis
     let part = 5;
     if (lenAr < part) {
@@ -92,6 +94,8 @@ export default class ChartController {
     }
     const stepY = lenAr / part;
     let pixelValues = [];
+    
+    //calculate coords of x labels
     for (let i = 0; i <= part; i++) {
       pixelValues[i] = Math.round(maxar - stepY * i);
     }
@@ -113,7 +117,7 @@ export default class ChartController {
       w = w + 1;
     });
   }
-  
+
   //method conversion data to pixels for x
   dataToPixelsX(dataX) {
     const { x0, maxAxX } = this;
@@ -186,7 +190,7 @@ export default class ChartController {
       dots.setAttribute("cx", arrX[i]);
       dots.setAttribute("cy", arrY[i]);
       dots.setAttribute("r", "7");
-      
+
       //tooltip
       dots.onmouseover = event => {
         let tooltip = document.getElementById("tooltip");
