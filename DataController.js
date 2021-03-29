@@ -8,17 +8,12 @@ export default class DataController extends EventTarget {
     //DataController fetch data every 1000ms
     setInterval(() => this.checkData(), 1000);
   }
-
   //method fetch data
   async fetchData() {
-    // const body = {
-    //   url: this.url,
-    // };
-
     const response = await fetch(this.url);
 
     let { data } = await response.json();
-    data = data.filter(({ x, value }) => value !== undefined && x !== undefined);
+    data = data.filter(({ x, value }) => typeof value === 'number' && typeof x === 'string');
 
     return data;
   }

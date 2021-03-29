@@ -70,7 +70,6 @@ export default class ChartController {
 
   drawYAxis(dataY) {
     const { y0, x0, maxAxY } = this;
-
     //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -190,10 +189,10 @@ export default class ChartController {
         tooltip.style.left = event.pageX + 10 + "px";
         tooltip.style.top = event.pageY + 10 + "px";
       };
-      dots.onmouseout  = () => {
+      dots.onmouseout = () => {
         var tooltip = document.getElementById("tooltip");
         tooltip.style.display = "none";
-      }
+      };
       svg.appendChild(dots);
       i += 1;
     });
