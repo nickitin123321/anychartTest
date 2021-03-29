@@ -26,10 +26,10 @@ $npm run start
 
   - Запуск сервера, на который загружаются данные
 
-- Java script
+- JavaScript
 
   - Контроль данных (DataController)
-  - Отрисовка графика на svg (ChartController)
+  - Отрисовка графика на SVG (ChartController)
 
 - HTML:
 
