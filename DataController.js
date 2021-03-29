@@ -5,9 +5,10 @@ export default class DataController extends EventTarget {
     this.data = [];
     this.checkData();
 
-    //DataController fetch data every 1000ms
+    //DataController check data every 1000ms
     setInterval(() => this.checkData(), 1000);
   }
+  
   //method fetch data
   async fetchData() {
     const response = await fetch(this.url);

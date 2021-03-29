@@ -21,6 +21,7 @@ export default class ChartController {
     data.forEach(element => {
       dataY.push(element.value);
     });
+    
     //sort data to x value array
     data.forEach(element => {
       dataX.push(element.x);
@@ -45,7 +46,8 @@ export default class ChartController {
     svg.setAttribute("class", "graph");
     document.body.appendChild(svg);
   }
-
+   
+  //method conversion data to pixels for y
   dataToPixelsY(dataY) {
     let y0 = this.y0;
     const maxAxY = this.maxAxY;
@@ -53,7 +55,6 @@ export default class ChartController {
     const minar = Math.min(...dataY);
     const lenAr = maxar - minar;
     const lenY = y0 - maxAxY;
-    //data to pixels for y
     let k = 0;
     if (lenAr != 0) {
       k = lenY / lenAr;
@@ -70,6 +71,7 @@ export default class ChartController {
 
   drawYAxis(dataY) {
     const { y0, x0, maxAxY } = this;
+    
     //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -82,6 +84,7 @@ export default class ChartController {
     const maxar = Math.max(...dataY);
     const minar = Math.min(...dataY);
     const lenAr = maxar - minar;
+    
     //draw labels for y axis
     let part = 5;
     if (lenAr < part) {
@@ -110,7 +113,8 @@ export default class ChartController {
       w = w + 1;
     });
   }
-
+  
+  //method conversion data to pixels for x
   dataToPixelsX(dataX) {
     const { x0, maxAxX } = this;
 
@@ -127,9 +131,9 @@ export default class ChartController {
     return arrX;
   }
 
+  //draw x axis
   drawXAxis(dataX, arrX) {
     const { x0, y0, maxAxX } = this;
-    //draw x axis
     const svg = document.querySelector(".graph");
     const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
     xAxis.setAttribute("x1", x0);
@@ -172,7 +176,7 @@ export default class ChartController {
     lineGraph.setAttribute("fill", "none");
     svg.appendChild(lineGraph);
 
-    //create dots for values and tooltip for dots
+    //create dots for values
     const tool = document.createElement("div");
     tool.setAttribute("id", "tooltip");
     document.body.appendChild(tool);
@@ -182,6 +186,8 @@ export default class ChartController {
       dots.setAttribute("cx", arrX[i]);
       dots.setAttribute("cy", arrY[i]);
       dots.setAttribute("r", "7");
+      
+      //tooltip
       dots.onmouseover = event => {
         let tooltip = document.getElementById("tooltip");
         tooltip.innerHTML = element;
