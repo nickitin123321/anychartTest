@@ -51,3 +51,15 @@ body {
   width: 800px;
   margin: 0 auto;
 }
+
+#tooltip {
+  background: #ffe9e0;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  display: none;
+}
+.container {
+  text-align: center;
+}

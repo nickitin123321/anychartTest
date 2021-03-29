@@ -11,18 +11,17 @@ export default class DataController extends EventTarget {
 
   //method fetch data
   async fetchData() {
-    const body = {
-      url: this.url,
-    };
+    // const body = {
+    //   url: this.url,
+    // };
 
-    const response = await fetch("http://localhost:5000/", {
+    const response = await fetch(this.url , {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      //body: JSON.stringify(body),
     });
 
     let { data } = await response.json();
-
     data = data.filter(({ x, value }) => value !== undefined && x !== undefined);
 
     return data;

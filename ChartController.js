@@ -25,15 +25,18 @@ export default class ChartController {
     data.forEach(element => {
       dataX.push(element.x);
     });
+
     this.deleteGraph();
 
     this.createSvgElement();
+
     //coords of values in pixels
     const arrY = this.dataToPixelsY(dataY);
     const arrX = this.dataToPixelsX(dataX);
 
     this.drawYAxis(dataY);
     this.drawXAxis(dataX, arrX);
+
     this.drawLine(arrX, arrY, dataY);
   }
 
@@ -59,16 +62,15 @@ export default class ChartController {
       y0 -= k * minar;
     }
     const arrY = [];
-    let i = 0;
     dataY.forEach(element => {
       arrY.push(y0 + k * (minar - element));
-      i += 1;
     });
     return arrY;
   }
 
   drawYAxis(dataY) {
     const { y0, x0, maxAxY } = this;
+
     //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -112,6 +114,7 @@ export default class ChartController {
 
   dataToPixelsX(dataX) {
     const { x0, maxAxX } = this;
+
     let i = 0;
     const arrX = [];
     const lx = maxAxX - x0;
@@ -170,17 +173,27 @@ export default class ChartController {
     lineGraph.setAttribute("fill", "none");
     svg.appendChild(lineGraph);
 
-    //create dots for values and titles for dots
+    //create dots for values and tooltip for dots
+    const tool = document.createElement("div");
+    tool.setAttribute("id", "tooltip");
+    document.body.appendChild(tool);
     i = 0;
     dataY.forEach(element => {
       const dots = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      const titleDots = document.createElementNS("http://www.w3.org/2000/svg", "title");
-      const textNode = document.createTextNode(element);
       dots.setAttribute("cx", arrX[i]);
       dots.setAttribute("cy", arrY[i]);
       dots.setAttribute("r", "7");
-      titleDots.appendChild(textNode);
-      dots.appendChild(titleDots);
+      dots.onmouseover = event => {
+        let tooltip = document.getElementById("tooltip");
+        tooltip.innerHTML = element;
+        tooltip.style.display = "block";
+        tooltip.style.left = event.pageX + 10 + "px";
+        tooltip.style.top = event.pageY + 10 + "px";
+      };
+      dots.onmouseout  = () => {
+        var tooltip = document.getElementById("tooltip");
+        tooltip.style.display = "none";
+      }
       svg.appendChild(dots);
       i += 1;
     });
