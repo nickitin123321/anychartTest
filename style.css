@@ -6,7 +6,6 @@
   text-anchor: end;
 }
 
-
 .graph {
   height: 600px;
   width: 800px;
@@ -17,12 +16,11 @@
   stroke-dasharray: 0;
   stroke-width: 1;
 }
-.iner{
+.iner {
   stroke: #ccc;
   stroke-dasharray: 0;
   stroke-width: 1;
 }
-
 
 .labels {
   font-size: 13px;
@@ -37,10 +35,10 @@
 
 .data {
   fill: red;
-  stroke-width: 1; 
+  stroke-width: 1;
 }
 html {
-  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
 }
 
 body {
