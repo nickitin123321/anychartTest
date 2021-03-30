@@ -38,7 +38,7 @@ export default class DataController extends EventTarget {
   async checkData() {
     const data = await this.fetchData();
     if (this.isDataUpdated(data)) {
-      //DataController dispatch event then data change
+      //DataController dispatch event then data changed
       const newEvent = new CustomEvent("dataChanged", {
         detail: data,
       });
