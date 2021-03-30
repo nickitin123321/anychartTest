@@ -1,20 +1,24 @@
 export default class DataController extends EventTarget {
-  constructor(url) {
+  constructor() {
     super();
-    this.url = url;
     this.data = [];
-    this.checkData();
-
-    //DataController check data every 1000ms
-    setInterval(() => this.checkData(), 1000);
   }
-  
+
+  setDataSource(url) {
+    if (this.timerId) clearInterval(this.timerId);
+    this.url = url;
+    this.checkData();
+    //DataController check data every 1000ms
+    this.timerId = setInterval(() => this.checkData(), 1000);
+    console.log(this.timerId);
+  }
+
   //method fetch data
   async fetchData() {
     const response = await fetch(this.url);
 
     let { data } = await response.json();
-    data = data.filter(({ x, value }) => typeof value === 'number' && typeof x === 'string');
+    data = data.filter(({ x, value }) => typeof value === "number" && typeof x === "string");
 
     return data;
   }

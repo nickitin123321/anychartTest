@@ -3,8 +3,10 @@ import ChartController from "./ChartController.js";
 const input = document.querySelector(".url");
 const button = document.querySelector(".upgrade");
 
+const dataController = new DataController();
+new ChartController(dataController);
+
 //event click on button
 button.onclick = () => {
-  const dataController = new DataController(input.value);
-  new ChartController(dataController);
+  dataController.setDataSource(input.value);
 };
