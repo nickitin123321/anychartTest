@@ -166,15 +166,15 @@ export default class ChartController {
     const svg = document.querySelector(".graph");
     //draw graph line
     const lineGraph = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    let he = "";
-    let l0 = "M";
+    let line = "";
+    let path = "M";
     let i = 0;
     arrY.forEach(element => {
-      he = he + " " + arrX[i] + " " + arrY[i];
+      line = line + " " + arrX[i] + " " + arrY[i];
       i += 1;
     });
-    l0 = l0 + he;
-    lineGraph.setAttribute("d", l0);
+    path = path + line;
+    lineGraph.setAttribute("d", path);
     lineGraph.setAttribute("stroke", "#ef6c00");
     lineGraph.setAttribute("stroke-width", "1.5");
     lineGraph.setAttribute("fill", "none");

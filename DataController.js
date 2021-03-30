@@ -4,26 +4,28 @@ export default class DataController extends EventTarget {
     this.data = [];
   }
 
+  //method set data source
   setDataSource(url) {
     if (this.timerId) clearInterval(this.timerId);
     this.url = url;
     this.checkData();
     //DataController check data every 1000ms
     this.timerId = setInterval(() => this.checkData(), 1000);
-    console.log(this.timerId);
   }
 
   //method fetch data
   async fetchData() {
-    const response = await fetch(this.url);
-
-    let { data } = await response.json();
-    data = data.filter(({ x, value }) => typeof value === "number" && typeof x === "string");
-
-    return data;
+    try {
+      const response = await fetch(this.url);
+      let { data } = await response.json();
+      data = data.filter(({ x, value }) => typeof value === "number" && typeof x === "string");
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
-  //method tracking update of data
+  //method track change of data
   isDataUpdated(data) {
     if (JSON.stringify(data) !== JSON.stringify(this.data)) {
       this.data = data;
@@ -36,7 +38,7 @@ export default class DataController extends EventTarget {
   async checkData() {
     const data = await this.fetchData();
     if (this.isDataUpdated(data)) {
-      //dataChanged event do then data changed
+      //DataController dispatch event then data change
       const newEvent = new CustomEvent("dataChanged", {
         detail: data,
       });

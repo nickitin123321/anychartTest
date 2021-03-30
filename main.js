@@ -6,7 +6,7 @@ const button = document.querySelector(".upgrade");
 const dataController = new DataController();
 new ChartController(dataController);
 
-//event click on button
+//set datasource on click
 button.onclick = () => {
   dataController.setDataSource(input.value);
 };
