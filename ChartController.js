@@ -1,10 +1,9 @@
 export default class ChartController {
   constructor(dataController) {
-    
     //coords of 0 in pixels
     this.x0 = 90;
     this.y0 = 440;
-    
+
     //max coords of axises in pixels
     this.maxAxY = 120;
     this.maxAxX = 690;
@@ -71,10 +70,10 @@ export default class ChartController {
     return arrY;
   }
 
+  //draw y axis
   drawYAxis(dataY) {
     const { y0, x0, maxAxY } = this;
 
-    //draw y axis
     const svg = document.querySelector(".graph");
     const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
     yAxis.setAttribute("x1", x0);
@@ -94,7 +93,7 @@ export default class ChartController {
     }
     const stepY = lenAr / part;
     let pixelValues = [];
-    
+
     //calculate coords of x labels
     for (let i = 0; i <= part; i++) {
       pixelValues[i] = Math.round(maxar - stepY * i);
@@ -164,7 +163,6 @@ export default class ChartController {
   //method draw graph line
   drawLine(arrX, arrY, dataY) {
     const svg = document.querySelector(".graph");
-    //draw graph line
     const lineGraph = document.createElementNS("http://www.w3.org/2000/svg", "path");
     let line = "";
     let path = "M";
@@ -180,18 +178,19 @@ export default class ChartController {
     lineGraph.setAttribute("fill", "none");
     svg.appendChild(lineGraph);
 
-    //create dots for values
+    //create tooltip
     const tool = document.createElement("div");
     tool.setAttribute("id", "tooltip");
     document.body.appendChild(tool);
     i = 0;
     dataY.forEach(element => {
+      //create dots
       const dots = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       dots.setAttribute("cx", arrX[i]);
       dots.setAttribute("cy", arrY[i]);
       dots.setAttribute("r", "7");
 
-      //tooltip
+      //set events on tooltip
       dots.onmouseover = event => {
         let tooltip = document.getElementById("tooltip");
         tooltip.innerHTML = element;
